@@ -1,6 +1,7 @@
 package conf
 
 import (
+	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/caarlos0/env/v6"
 )
@@ -25,6 +26,7 @@ func LoadConfigFromToml(filePath string) error {
 	}
 	// 加载全局配置单例
 	global = cfg
+	fmt.Printf("%#v\n", global)
 	return nil
 }
 

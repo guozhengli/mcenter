@@ -110,10 +110,10 @@ func newDefaultLog() *log {
 func newDefaultMongoDB() *mongodb {
 	m := &mongodb{
 		UserName:       "mcenter",
-		Password:       "123456",
+		Password:       "suixingpay",
 		Database:       "mcenter",
 		AuthDB:         "",
-		Endpoints:      []string{"127.0.0.1:27017"},
+		Endpoints:      []string{"localhost:27017"},
 		K8sServiceName: "MONGODB",
 	}
 	m.LoadK8sEnv()

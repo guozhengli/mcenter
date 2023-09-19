@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: JOB_BASE_NAME
+  namespace: NAMESPACE
+  labels:
+    app: JOB_BASE_NAME
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: JOB_BASE_NAME
+  template:
+    metadata:
+      labels:
+        app: JOB_BASE_NAME
+    spec:
+      imagePullSecrets:
+      - name: harbor
+      containers:
+      - env:
+        - name: PROFILES
+          value: APP-ENV
+        image: test-harbor.suixingpay.com/ops/JOB_BASE_NAME:BUILD_ID
+        imagePullPolicy: IfNotPresent
+        name: JOB_BASE_NAME
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          successThreshold: 2
+          tcpSocket:
+            port: JOB_BASE_PORT
+          timeoutSeconds: 2
+        resources:
+          limits:
+            cpu: "2"
+            memory: 4Gi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+        ports:
+        - containerPort: JOB_BASE_PORT
+          name: web
+        - containerPort: JOB_GRPC_PORT
+          name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: JOB_BASE_NAME
+  namespace: NAMESPACE
+  labels:
+    app: mcenter
+spec:
+  selector:
+    app: JOB_BASE_NAME
+  type: NodePort
+  ports:
+  - name: JOB_BASE_NAME
+    port: JOB_BASE_PORT
+    protocol: TCP
+    targetPort: JOB_BASE_PORT
+  - name: JOB_GRPC_NAME
+    port: JOB_GRPC_PORT
+    protocol: TCP
+    targetPort: JOB_GRPC_PORT

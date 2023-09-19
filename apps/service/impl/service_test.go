@@ -29,6 +29,15 @@ func TestQueryService(t *testing.T) {
 	t.Log(tools.MustToJson(set))
 }
 
+func TestDescService(t *testing.T) {
+	req := service.NewDescribeServiceRequest("cd08fc9c")
+	set, err := impl.DescribeService(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(tools.MustToJson(set))
+}
+
 func TestCreateService(t *testing.T) {
 	req := service.NewCreateServiceRequest()
 	req.Name = "moperator"
